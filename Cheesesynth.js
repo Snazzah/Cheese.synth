@@ -67,24 +67,38 @@ bot.on("messageCreate", (msg) => {
         {
             bot.createMessage(msg.channel.id, "( ͡° ͜ʖ ͡°)");}
         else if (cmd === "info")
-        {
-            var msgchan = msg.channel.id;
-            var usrid = msg.author.id;
-            bot.createMessage(msgchan,
-              "__**"+msg.member.user.username.toUpperCase() + "'S OFFICIAL ID CARD - ACCESS CODE: #"+msg.member.user.discriminator+"**__" + "\n"
-            + "```ruby\n"
-            +"\n"+"           ID: "+usrid
-            +"\n"+"         Name: "+msg.member.user.username
-            +"\n"+"     Nickname: "+msg.nick
-            +"\n"+"Discriminator: "+msg.member.user.discriminator
-            +"\n"+"       Status: "+msg.status
-            +"\n"+" Current Game: "+msgGame
-            +"\n"+"       Joined: "+msg.channel.guild.name+" on "+msg.member.joinedAt
-            +"\n"+"       Avatar: "
-            + "```"
-            +"\n"+ "https://cdn.discordapp.com/avatars/"+usrid+"/"+msg.author.avatar+".jpg"
-            );
-        }
+           {
+               if(cmd.startsWith( "info"))
+               {
+                   if(msg.mentions.length > 1)
+                   {
+                       // make the bot say there were too many mentions
+                       bot.createMessage(msg.channel.id, "Gah! Too many mentions. Try again!");
+                   }
+                   else
+                   {
+                       // set the member to the person calling the command...
+                       var member = msg.member
+                       if(msg.mentions.length == 1) // ...unless they mention a user
+                       {
+                           member = msg.channel.guild.members.get(msg.mentions[0]);
+                       }
+                       bot.createMessage(msg.channel.id,
+                           "__**"+member.user.username.toUpperCase() + "'S OFFICIAL ID CARD - ACCESS CODE: #"+member.user.discriminator+"**__" + "\n"
+                           + "```ruby\n"
+                           +"\n"+"           ID: "+member.user.id
+                           +"\n"+"         Name: "+member.user.username
+                           +"\n"+"     Nickname: "+member.nick
+                           +"\n"+"Discriminator: "+member.user.discriminator
+                           +"\n"+"       Status: "+member.status
+                           +"\n"+" Current Game: "+msgGame
+                           +"\n"+"       Joined: "+msg.channel.guild.name+" on "+member.joinedAt
+                           +"\n"+"       Avatar: https://cdn.discordapp.com/avatars/"+member.user.id+"/"+member.user.avatar+".jpg"
+                           + "```"
+                       );
+                   }
+               }
+           }
         else if (cmd === "test")
         {
             try {
