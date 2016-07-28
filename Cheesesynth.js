@@ -37,7 +37,6 @@ bot.on("messageCreate", (msg) => {
     { bot.createMessage(msg.channel.id, "( ͡° ͜ʖ ͡°)");}
     else if (cmd === "info")
     {
-      var codeBlock = "```";
       bot.createMessage(msg.channel.id,
         "__**"+msg.member.user.username.toUpperCase() + "'S OFFICIAL ID CARD - ACCESS CODE: #"+msg.member.user.discriminator+"**__" + "\n"
       + "```ruby\n"
