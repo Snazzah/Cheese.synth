@@ -94,7 +94,7 @@ bot.on("messageCreate", (msg) => {
                            +"\n"+" Current Game: "+msgGame
                            +"\n"+"       Joined: "+msg.channel.guild.name+" on "+member.joinedAt
                            +"\n"+"       Avatar: https://cdn.discordapp.com/avatars/"+member.user.id+"/"+member.user.avatar+".jpg"
-                           + "```"
+                           + "\n``"
                        );
                    }
                }
