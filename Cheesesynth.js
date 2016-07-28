@@ -2,7 +2,7 @@ const Eris = require("eris");
 
 var botVersion = "v0.0.1.1 alpha";
 var gameName = "Cheese.lab Industries Inc.";
-var prefix = "."
+var prefix = ".";
 
 var bot = new Eris("  "); //REMOVED TOKEN
 bot.on("ready", () => {
