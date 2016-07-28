@@ -4,7 +4,8 @@ var botVersion = "v0.0.1.1 alpha";
 var gameName = "Cheese.lab Industries Inc.";
 var prefix = ".";
 
-var bot = new Eris("  "); //REMOVED TOKEN
+//Added Reconnect code now.
+var bot = new Eris("  ", options.autoReconnect); //REMOVED TOKEN
 bot.on("ready", () => {
     console.log("Cheese.synth is unloading Cheese.puns! Please wait...");
     console.log("Finished loading Cheese.puns. Unpacking Cheese.food...");
