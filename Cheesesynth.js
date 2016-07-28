@@ -22,7 +22,7 @@ bot.on("messageCreate", (msg) => {
         msgGame = "Playing "+msg.member.game.name;
     }
     catch(err) {
-        msgGame = "Playing "+"None";
+        msgGame = "Playing None";
     }
 
     if(msg.content.startsWith(prefix))
@@ -75,9 +75,9 @@ bot.on("messageCreate", (msg) => {
             + "```ruby\n"
             +"\n"+"           ID: "+usrid
             +"\n"+"         Name: "+msg.member.user.username
-            +"\n"+"     Nickname: "+msg.member.nick
+            +"\n"+"     Nickname: "+msg.nick
             +"\n"+"Discriminator: "+msg.member.user.discriminator
-            +"\n"+"       Status: "+msg.member.status
+            +"\n"+"       Status: "+msg.status
             +"\n"+" Current Game: "+msgGame
             +"\n"+"       Joined: "+msg.channel.guild.name+" on "+msg.member.joinedAt
             +"\n"+"       Avatar: "
@@ -90,8 +90,7 @@ bot.on("messageCreate", (msg) => {
             try {
                 bot.createMessage(msg.channel.id, msg1);
             } catch (err) {
-                // TODO: Change line number in this when I try and catch every command in case something does indeed go wrong.
-                console.log('Failed too send the reply for the cheese command. See line 94 for more info');
+                console.log('Failed too send the reply for the cheese command. See line 93 for more info');
             }
         }
         else if (cmd === "hi!" || cmd === "hello!")
