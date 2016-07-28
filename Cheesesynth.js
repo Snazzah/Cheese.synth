@@ -93,8 +93,8 @@ bot.on("messageCreate", (msg) => {
                            +"\n"+"       Status: "+member.status
                            +"\n"+" Current Game: "+msgGame
                            +"\n"+"       Joined: "+msg.channel.guild.name+" on "+member.joinedAt
-                           +"\n"+"       Avatar: https://cdn.discordapp.com/avatars/"+member.user.id+"/"+member.user.avatar+".jpg"
-                           + "\n``"
+                           +"\n"+"       Avatar: "+"\n"+"https://cdn.discordapp.com/avatars/"+member.user.id+"/"+member.user.avatar+".jpg "
+                           + "```"
                        );
                    }
                }
