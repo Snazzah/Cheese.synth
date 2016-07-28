@@ -1,6 +1,6 @@
 const Eris = require("eris");
 
-var botVersion = "v0.0.1 alpha";
+var botVersion = "v0.0.1.1 alpha";
 var gameName = "Cheese.lab";
 var prefix = "."
 
