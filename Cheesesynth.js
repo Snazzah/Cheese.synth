@@ -17,55 +17,95 @@ bot.on("ready", () => {
 });
 
 bot.on("messageCreate", (msg) => {
-        var msgGame;
-        try {msgGame = "Playing "+msg.member.game.name;}
-        catch(err) { msgGame = "Playing "+"None";}
+    var msgGame;
+    try {
+        msgGame = "Playing "+msg.member.game.name;
+    }
+    catch(err) {
+        msgGame = "Playing "+"None";
+    }
 
     if(msg.content.startsWith(prefix))
     {
-    var cmd = msg.content.substring( prefix.length ).toLowerCase();
-    if(cmd  === "ping")
-    { bot.createMessage(msg.channel.id, "Pong!");
-    console.log("<"+"@"+msg.author.id+">" + " pinged the server!");}
-    else if (cmd === "commands")
-    { bot.createMessage(msg.channel.id, msg.author.mention+" "+"Coming SOON:tm:");}
-    else if(cmd === "pong")
-    { bot.createMessage(msg.channel.id, "Ping!");}
-    else if(cmd === "cheese")
-    { bot.createMessage(msg.channel.id, ":cheese:");}
-    else if (cmd === "lenny")
-    { bot.createMessage(msg.channel.id, "( ͡° ͜ʖ ͡°)");}
-    else if (cmd === "info")
-    {
-      var msgchan = msg.channel.id;
-      var usrid = msg.author.id;
-      bot.createMessage(msgchan,
-        "__**"+msg.member.user.username.toUpperCase() + "'S OFFICIAL ID CARD - ACCESS CODE: #"+msg.member.user.discriminator+"**__" + "\n"
-      + "```ruby\n"
-      +"\n"+"           ID: "+usrid
-      +"\n"+"         Name: "+msg.member.user.username
-      +"\n"+"     Nickname: "+msg.member.nick
-      +"\n"+"Discriminator: "+msg.member.user.discriminator
-      +"\n"+"       Status: "+msg.member.status
-      +"\n"+" Current Game: "+msgGame
-      +"\n"+"       Joined: "+msg.channel.guild.name+" on "+msg.member.joinedAt
-      +"\n"+"       Avatar: "
-      + "```"
-      +"\n"+ "https://cdn.discordapp.com/avatars/"+usrid+"/"+msg.author.avatar+".jpg"
-    );
-    }
-    else if (cmd === "test")
-    {bot.createMessage(msg.channel.id, msg1);}
-    else if (cmd === "hi!" || cmd === "hello!")
-    {bot.createMessage(msg.channel.id, "<@"+msg.author.id+"> Welcome to the **"+msg.channel.guild.name+"** Server!");
-    bot.createMessage(msg.channel.id, "*flips table*");
-    bot.createMessage(msg.channel.id, "(╯°□°）╯︵ ┻━┻");}
-    else if (cmd === "setgame")
-    {null;}
-    else if (cmd === "version")
-    {bot.createMessage(msg.channel.id, "**Bot Version: **" + botVersion);}
-    else if (cmd === "game")
-    {bot.createMessage(msg.channel.id, "My current game is set to **" + gameName + "** by the owner! Only the owner can set this.");}
+        var cmd = msg.content.substring( prefix.length ).toLowerCase();
+        if(cmd  === "ping")
+        {
+            try { //Try to send the message as any exceptions can happen if the message content is over 2000 characters.
+                bot.createMessage(msg.channel.id, "Pong!");
+                //Do not have mentions in console logs, the user's id and their name is good enough.
+                console.log(msg.author.id+" with the name of "+msg.author.username+" pinged the server!");
+            } catch (err) { //this means sendign the message failed for some reason.
+                console.log('Failed too send the reply for the ping command. See line 38 for more info')
+            }
+        }
+        else if (cmd === "commands")
+        {
+            try {
+                bot.createMessage(msg.channel.id, msg.author.mention+" "+"Coming SOON:tm:");
+            } catch (err) {
+                console.log("Failed to send message from the commands command. please see line 46 in this bot's code.")
+            }
+        }
+        else if(cmd === "pong")
+        {
+            try {
+                //I know I like to Try and catch everything because if you learn from python anything can Error at any time. in JS it crashes bots so expect the unexpected.
+                bot.createMessage(msg.channel.id, "Ping!");
+            } catch (err) {
+                console.log('Failed too send the reply for the pong command. See line 55 for more info.');
+            }
+        }
+        else if(cmd === "cheese")
+        {
+            try {
+                bot.createMessage(msg.channel.id, ":cheese:");
+            } catch (err) {
+                console.log('Failed too send the reply for the cheese command. See line 63 for more info');
+            }
+        }
+        else if (cmd === "lenny")
+        {
+            bot.createMessage(msg.channel.id, "( ͡° ͜ʖ ͡°)");}
+        else if (cmd === "info")
+        {
+            var msgchan = msg.channel.id;
+            var usrid = msg.author.id;
+            bot.createMessage(msgchan,
+              "__**"+msg.member.user.username.toUpperCase() + "'S OFFICIAL ID CARD - ACCESS CODE: #"+msg.member.user.discriminator+"**__" + "\n"
+            + "```ruby\n"
+            +"\n"+"           ID: "+usrid
+            +"\n"+"         Name: "+msg.member.user.username
+            +"\n"+"     Nickname: "+msg.member.nick
+            +"\n"+"Discriminator: "+msg.member.user.discriminator
+            +"\n"+"       Status: "+msg.member.status
+            +"\n"+" Current Game: "+msgGame
+            +"\n"+"       Joined: "+msg.channel.guild.name+" on "+msg.member.joinedAt
+            +"\n"+"       Avatar: "
+            + "```"
+            +"\n"+ "https://cdn.discordapp.com/avatars/"+usrid+"/"+msg.author.avatar+".jpg"
+            );
+        }
+        else if (cmd === "test")
+        {
+            try {
+                bot.createMessage(msg.channel.id, msg1);
+            } catch (err) {
+                // TODO: Change line number in this when I try and catch every command in case something does indeed go wrong.
+                console.log('Failed too send the reply for the cheese command. See line 94 for more info');
+            }
+        }
+        else if (cmd === "hi!" || cmd === "hello!")
+        {
+            bot.createMessage(msg.channel.id, "<@"+msg.author.id+"> Welcome to the **"+msg.channel.guild.name+"** Server!");
+            bot.createMessage(msg.channel.id, "*flips table*");
+            bot.createMessage(msg.channel.id, "(╯°□°）╯︵ ┻━┻");
+        }
+        else if (cmd === "setgame")
+        {null;}
+        else if (cmd === "version")
+        {bot.createMessage(msg.channel.id, "**Bot Version: **" + botVersion);}
+        else if (cmd === "game")
+        {bot.createMessage(msg.channel.id, "My current game is set to **" + gameName + "** by the owner! Only the owner can set this.");}
 
   }
 });
