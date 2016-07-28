@@ -18,6 +18,7 @@ bot.on("ready", () => {
 });
 
 bot.on("messageCreate", (msg) => {
+    var msgDate = new Date(msg.member.joinedAt);
     var msgGame;
     try {
         msgGame = "Playing "+msg.member.game.name;
@@ -25,7 +26,6 @@ bot.on("messageCreate", (msg) => {
     catch(err) {
         msgGame = "Playing None";
     }
-
     if(msg.content.startsWith(prefix))
     {
         var cmd = msg.content.substring( prefix.length ).toLowerCase();
@@ -69,7 +69,7 @@ bot.on("messageCreate", (msg) => {
             bot.createMessage(msg.channel.id, "( ͡° ͜ʖ ͡°)");}
         else if (cmd === "info")
            {
-               if(cmd.startsWith( "info"))
+               if(cmd.startsWith("info"))
                {
                    if(msg.mentions.length > 1)
                    {
@@ -93,7 +93,8 @@ bot.on("messageCreate", (msg) => {
                            +"\n"+"Discriminator: "+member.user.discriminator
                            +"\n"+"       Status: "+member.status
                            +"\n"+" Current Game: "+msgGame
-                           +"\n"+"       Joined: "+msg.channel.guild.name+" on "+member.joinedAt
+                           +"\n"+"        Roles: "+member.roles
+                           +"\n"+"       Joined: "+msg.channel.guild.name+" on "+msgDate
                            +"\n"+"       Avatar: "+"\n"+"https://cdn.discordapp.com/avatars/"+member.user.id+"/"+member.user.avatar+".jpg "
                            + "```"
                        );
@@ -103,9 +104,9 @@ bot.on("messageCreate", (msg) => {
         else if (cmd === "test")
         {
             try {
-                bot.createMessage(msg.channel.id, msg1);
+                bot.createMessage(msg.channel.id, "I hear you <@"+msg.author.id+"> :ok_hand:");
             } catch (err) {
-                console.log('Failed too send the reply for the cheese command. See line 93 for more info');
+                console.log('Failed too send the reply for the cheese command. See line 107 for more info');
             }
         }
         else if (cmd === "hi!" || cmd === "hello!")
@@ -120,7 +121,10 @@ bot.on("messageCreate", (msg) => {
         {bot.createMessage(msg.channel.id, "**Bot Version: **" + botVersion);}
         else if (cmd === "game")
         {bot.createMessage(msg.channel.id, "My current game is set to **" + gameName + "** by the owner! Only the owner can set this.");}
-
+        else if (cmd === "fight")
+        {bot.createMessage(msg.channel.id, "You're such a slut <@194103257637978114> ");}
+        else if (cmd === "debug")
+        {bot.createMessage(msg.channel.id, msg.member.guild.roles);}
   }
 });
 
