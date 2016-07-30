@@ -23,7 +23,7 @@ bot.on("messageCreate", (msg) => {
         msgGame = "Playing "+msg.member.game.name;
     }
     catch(err) {
-        msgGame = "Playing None";
+        msgGame = "N/A";
     }
     if(msg.content.startsWith(prefix))
     {
@@ -85,6 +85,8 @@ bot.on("messageCreate", (msg) => {
                        }
                        var n = ''
                        if(member.nick!=null){ n = "\n"+"     Nickname: "+member.nick } // Cool look
+                       var ro = []
+                       ro = member.roles.map(r => msg.channel.guild.roles.find(m => m.id == r).name)
                        bot.createMessage(msg.channel.id,
                            "__**"+member.user.username.toUpperCase() + "'S OFFICIAL ID CARD - ACCESS CODE: #"+member.user.discriminator+"**__" + "\n"
                            + "```ruby\n"
@@ -94,6 +96,7 @@ bot.on("messageCreate", (msg) => {
                            +"\n"+"Discriminator: "+member.user.discriminator
                            +"\n"+"       Status: "+member.status
                            +"\n"+" Current Game: "+msgGame
+                           +"\n"+"        Roles: "+ro
                            +"\n"+"       Joined: "+msg.channel.guild.name+" on "+msgDate
                            +"\n"+"       Avatar: "+"\n"+"https://cdn.discordapp.com/avatars/"+member.user.id+"/"+member.user.avatar+".jpg "
                            + "```"
