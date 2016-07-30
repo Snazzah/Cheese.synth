@@ -85,10 +85,6 @@ bot.on("messageCreate", (msg) => {
                        }
                        var n = ''
                        if(member.nick!=null){ n = "\n"+"     Nickname: "+member.nick } // Cool look
-                       var r = []
-                       for(var role in member.roles){
-                           r.push(member.guild.roles.get(role).name)
-                       }
                        bot.createMessage(msg.channel.id,
                            "__**"+member.user.username.toUpperCase() + "'S OFFICIAL ID CARD - ACCESS CODE: #"+member.user.discriminator+"**__" + "\n"
                            + "```ruby\n"
@@ -98,7 +94,6 @@ bot.on("messageCreate", (msg) => {
                            +"\n"+"Discriminator: "+member.user.discriminator
                            +"\n"+"       Status: "+member.status
                            +"\n"+" Current Game: "+msgGame
-                           +"\n"+"        Roles: "+r
                            +"\n"+"       Joined: "+msg.channel.guild.name+" on "+msgDate
                            +"\n"+"       Avatar: "+"\n"+"https://cdn.discordapp.com/avatars/"+member.user.id+"/"+member.user.avatar+".jpg "
                            + "```"
@@ -129,7 +124,7 @@ bot.on("messageCreate", (msg) => {
         else if (cmd === "fight")
         {bot.createMessage(msg.channel.id, "You're such a slut <@194103257637978114> ");}
         else if (cmd === "debug")
-        {bot.createMessage(msg.channel.id, msg.member.guild.roles);}
+        {bot.createMessage(msg.channel.id, null);}
   }
 });
 
