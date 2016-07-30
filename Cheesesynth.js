@@ -83,16 +83,22 @@ bot.on("messageCreate", (msg) => {
                        {
                            member = msg.channel.guild.members.get(msg.mentions[0]);
                        }
+                       var n = ''
+                       if(member.nick!=null){ n = "\n"+"     Nickname: "+member.nick } // Cool look
+                       var r = []
+                       for(var role in member.roles){
+                           r.push(member.guild.roles.get(role).name)
+                       }
                        bot.createMessage(msg.channel.id,
                            "__**"+member.user.username.toUpperCase() + "'S OFFICIAL ID CARD - ACCESS CODE: #"+member.user.discriminator+"**__" + "\n"
                            + "```ruby\n"
                            +"\n"+"           ID: "+member.user.id
                            +"\n"+"         Name: "+member.user.username
-                           +"\n"+"     Nickname: "+member.nick
+                           +n
                            +"\n"+"Discriminator: "+member.user.discriminator
                            +"\n"+"       Status: "+member.status
                            +"\n"+" Current Game: "+msgGame
-                           +"\n"+"        Roles: "+member.roles
+                           +"\n"+"        Roles: "+r
                            +"\n"+"       Joined: "+msg.channel.guild.name+" on "+msgDate
                            +"\n"+"       Avatar: "+"\n"+"https://cdn.discordapp.com/avatars/"+member.user.id+"/"+member.user.avatar+".jpg "
                            + "```"
