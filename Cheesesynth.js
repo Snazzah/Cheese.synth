@@ -86,9 +86,7 @@ bot.on("messageCreate", (msg) => {
                        var n = ''
                        if(member.nick!=null){ n = "\n"+"     Nickname: "+member.nick } // Cool look
                        var r = []
-                       for(var role in member.roles){
-                           r.push(member.guild.roles.get(role).name)
-                       }
+                       msg.channel.guild.roles.map(r => r.name)
                        bot.createMessage(msg.channel.id,
                            "__**"+member.user.username.toUpperCase() + "'S OFFICIAL ID CARD - ACCESS CODE: #"+member.user.discriminator+"**__" + "\n"
                            + "```ruby\n"
