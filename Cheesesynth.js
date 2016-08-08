@@ -48,9 +48,9 @@ bot.on("messageCreate", (msg) => {
         }
         else if (cmd === "eval" && message.author.id === '71323348545576960') { // Replace with your User ID
 			try{
-				mybot.reply(message, "```js\n" + eval(message.content.replace(prefix+"eval ", "")) + "```");
+				bot.createMessage(msg.channel.id, "```js\n" + eval(msg.content.split(' ').shift().join(' ')) + "```");
 			}catch(e){
-				mybot.reply(message, "```js\n"+e+"```");
+				bot.createMessage(msg.channel.id, "```js\n"+e+"```");
 			}
         {
             try {
