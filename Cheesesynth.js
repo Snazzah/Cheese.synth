@@ -48,16 +48,10 @@ bot.on("messageCreate", (msg) => {
         }
         else if (cmd === "eval" && message.author.id === '71323348545576960') { // Replace with your User ID
 			try{
-				bot.createMessage(msg.channel.id, "```js\n" + eval(msg.content.split(' ').shift().join(' ')) + "```");
+				bot.createMessage(msg.channel.id, "```js\n" + eval(msg.content.split(' ').splice(1).join(' ')) + "```");
 			}catch(e){
 				bot.createMessage(msg.channel.id, "```js\n"+e+"```");
 			}
-        {
-            try {
-                bot.createMessage(msg.channel.id, msg.author.mention+" "+"Coming SOON:tm:");
-            } catch (err) {
-                console.log("Failed to send message from the commands command. please see line 46 in this bot's code.")
-            }
         }
         else if(cmd === "pong")
         {
