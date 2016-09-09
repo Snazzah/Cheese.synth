@@ -1,141 +1,151 @@
 const Eris = require("eris");
 
-var botVersion = "v0.0.1.1 alpha";
-var gameName = "Cheese.lab Industries Inc.";
+var botVersion = "v0.0.3 alpha";
+var gameName = "Type .about for info";
 var prefix = ".";
+var commands = {};
 
-var bot = new Eris("  "); //REMOVED TOKEN
+commands._register = function (label, generator, options) {
+    commands[label] = {label: label, exec: generator, options: options};
+};
+
+var bot = new Eris("Bot "); //REMOVED TOKEN
 bot.on("ready", () => {
     console.log("Cheese.synth is unloading Cheese.puns! Please wait...");
     console.log("Finished loading Cheese.puns. Unpacking Cheese.food...");
     console.log("Done!");
     console.log("Running Bot Version: " + botVersion);
-    bot.editStatus(false,{
+    bot.editStatus(true,{
         name: gameName
     });
     console.log("Game set to " + gameName);
 });
 
+commands._register("ping", (msg) => {
+    return "Pong!";
+});
+commands._register("cheese", () => {
+    return ":cheese:";
+});
+commands._register("lenny", () => {
+    return "( ͡° ͜ʖ ͡°)";
+});
+commands._register("fight", (msg, args) => {
+    return "You're such a slut " +args[0];
+});
+commands._register("game", () => {
+    return "My current game is set to **" + gameName + "** by the owner! Only the owner can set this.";
+});
+commands._register("version", () => {
+    return "**Bot Version: **" + botVersion;
+});
+commands._register("eval", (msg) => {
+        if (msg.author.id === '71323348545576960')  // Replace with your User ID
+     			try{
+                                var code = msg.content.slice(1 + "eval".length);
+                                var result = eval(code);
+   				bot.createMessage(msg.channel.id, "**Input:**\n" + "```js\n" + code + "```\n" + "**Result:**\n```js\n" + result + "```");
+   			}catch(e){
+   				bot.createMessage(msg.channel.id, "```fix\n"+e+"```");
+   			}
+});
+commands._register("say", (msg) => {
+          var say = msg.content.slice(1 + "say".length);
+   				bot.createMessage(msg.channel.id, say);
+});
+
+commands._register("slap", (msg, args) => {
+          return "*slaps "+args[0]+" around a bit with a large trout*";
+});
+commands._register("github", (msg, args) => {
+          return "Their GitHub link is <https://github.com/" + args[0] + "/>";
+});
+commands._register("emotes", (msg) => {
+          return "**Current Custom Emotes:** <:CheeseRIP:210176666620657664> & <:Cheeselab:209900006436634624>";
+});
+commands._register("tableflip", (msg) => {
+          return "*flips table*";
+          return "<@"+msg.author.id+"> "+"(╯°□°）╯︵ ┻━┻";
+});
+commands._register("about", (msg) => {
+          return "**Bot Version: **" + botVersion
+          + "\n I'm currently on the server: **"+msg.channel.guild.name+"** and my prefix is `"+prefix+"`."
+          + "\n Cheese.synth is created by @Cheese - You can find the source here: <https://github.com/Cheeselab/Cheese.synth>"
+          + "\n My current game is set to **" + gameName + "** by the owner! Only the owner can set this."
+          + "\n You can get help on the server by typing `"+prefix+"help`";
+});
+commands._register("id", (msg, args) => {
+          var member = msg.channel.guild.members.find((o) => {
+          if (o.user.username === args.join(" ")) return true
+          });
+          if (args[0] === "me") {
+          member = msg.member;
+          }
+          if (args < 1) {
+          bot.createMessage(msg.channel.id, "Usage: `id [me/username]`")
+          return
+          };
+          var msgDate = new Date(member.joinedAt);
+          var msgGame;
+          try {msgGame = "Playing "+member.game.name;}
+          catch(err) {msgGame = "N/A";}
+          var id = msg.content.slice(1 + "id".length);
+          var n = ''
+          if(member.nick!=null){ n = "\n"+"     Nickname: "+msg.member.nick } // Cool look
+          var ro = []
+          ro = member.roles.map(r => msg.channel.guild.roles.find(m => m.id == r).name)
+          return "__**"+member.user.username.toUpperCase() + "'S OFFICIAL ID CARD - ACCESS CODE: #"+member.user.discriminator+"**__" + "\n"
+          + "```ruby\n"
+          +"\n"+"           ID: "+member.user.id
+          +"\n"+"         Name: "+member.user.username
+          +n
+          +"\n"+"Discriminator: "+member.user.discriminator
+          +"\n"+"       Status: "+member.status
+          +"\n"+" Current Game: "+msgGame
+          +"\n"+"        Roles: "+ro
+          +"\n"+"       Joined: "+msg.channel.guild.name+" on "+msgDate
+          +"\n"+"       Avatar: https://cdn.discordapp.com/avatars/"+member.user.id+"/"+member.user.avatar+".jpg "
+          + "```";
+});
+commands._register("server", (msg) => {
+          var msgDate = new Date(msg.channel.guild.createdAt);
+          return "__**"+msg.channel.guild.name.toUpperCase() + "'S SERVER INFO:**__" + "\n"
+          + "```ruby\n"
+          +"\n"+"           ID: "+msg.channel.guild.id
+          +"\n"+"         Name: "+msg.channel.guild.name
+          +"\n"+"       Region: "+msg.channel.guild.region.toUpperCase()
+          +"\n"+"      Members: "+msg.channel.guild.memberCount
+          +"\n"+"      Created: "+msgDate
+          +"\n"+"       Avatar: https://discordapp.com/api/guilds/"+msg.channel.guild.id+"/icons/"+msg.channel.guild.icon+".jpg "
+          + "```";
+});
+commands._register("help", (msg) => {
+  bot.getDMChannel(msg.author.id).then(chan => {
+  bot.createMessage(chan.id, "**__CURRENT COMMANDS:__**"+
+                "```ruby\n"
+                +"\n"+" EXPERIMENTAL: "+prefix+"id, "+prefix+"server, "+prefix+"github"
+                +"\n"+"          FUN: "+prefix+"cheese, "+prefix+"lenny, "+prefix+"tableflip, "+prefix+"fight, "+prefix+"emotes, "+prefix+"slap, "+prefix+"say"
+                +"\n"+"         MISC: "+prefix+"ping, "+prefix+"pong"
+                +"\n"+"     BOT INFO: "+prefix+"about, "+prefix+"help (this command), "+prefix+"game, "+prefix+"version"
+                + "```" +
+    "\n Cheese is currently in the process of implementing better help command.");
+  })
+  return ":ok: `Check your messages!` :ok_hand:";
+});
+
 bot.on("messageCreate", (msg) => {
-    var msgDate = new Date(msg.member.joinedAt);
-    var msgGame;
-    try {
-        msgGame = "Playing "+msg.member.game.name;
-    }
-    catch(err) {
-        msgGame = "N/A";
-    }
-    if(msg.content.startsWith(prefix))
-    {
-        var cmd = msg.content.substring( prefix.length ).toLowerCase();
-        if(cmd  === "ping")
-        {
-            try { //Try to send the message as any exceptions can happen if the message content is over 2000 characters.
-                bot.createMessage(msg.channel.id, "Pong!");
-                //Do not have mentions in console logs, the user's id and their name is good enough.
-                console.log(msg.author.id+" with the name of "+msg.author.username+" pinged the server!");
-            } catch (err) { //this means sendign the message failed for some reason.
-                console.log('Failed too send the reply for the ping command. See line 38 for more info')
-            }
+    var label = msg.content.slice(prefix.length).split(" ")[0];
+    if (msg.content.startsWith(prefix) && commands[label]) {
+        var command = commands[label];
+        var args = msg.content.slice(prefix.length + label.length).slice(1).split(" ");
+        try {
+            var res = command.exec(msg, args);
+            if (res) bot.createMessage(msg.channel.id, res);
+        } catch (e) {
+            bot.createMessage(msg.channel.id, "<:CheeseRIP:210176666620657664> `Command failed to execute. Notify Cheese for errorlog.`").catch(console.log);
+            console.log(e);
         }
-        else if (cmd === "commands")
-        {
-            try {
-                bot.createMessage(msg.channel.id, msg.author.mention+" "+"Coming SOON:tm:");
-            } catch (err) {
-                console.log("Failed to send message from the commands command. please see line 46 in this bot's code.")
-            }
-        }
-        else if (cmd === "eval" && message.author.id === '71323348545576960') { // Replace with your User ID
-			try{
-				bot.createMessage(msg.channel.id, "```js\n" + eval(msg.content.split(' ').splice(1).join(' ')) + "```");
-			}catch(e){
-				bot.createMessage(msg.channel.id, "```js\n"+e+"```");
-			}
-        }
-        else if(cmd === "pong")
-        {
-            try {
-                //I know I like to Try and catch everything because if you learn from python anything can Error at any time. in JS it crashes bots so expect the unexpected.
-                bot.createMessage(msg.channel.id, "Ping!");
-            } catch (err) {
-                console.log('Failed too send the reply for the pong command. See line 55 for more info.');
-            }
-        }
-        else if(cmd === "cheese")
-        {
-            try {
-                bot.createMessage(msg.channel.id, ":cheese:");
-            } catch (err) {
-                console.log('Failed too send the reply for the cheese command. See line 63 for more info');
-            }
-        }
-        else if (cmd === "lenny")
-        {
-            bot.createMessage(msg.channel.id, "( ͡° ͜ʖ ͡°)");}
-        else if (cmd === "info")
-           {
-               if(cmd.startsWith("info"))
-               {
-                   if(msg.mentions.length > 1)
-                   {
-                       // make the bot say there were too many mentions
-                       bot.createMessage(msg.channel.id, "Gah! Too many mentions. Try again!");
-                   }
-                   else
-                   {
-                       // set the member to the person calling the command...
-                       var member = msg.member
-                       if(msg.mentions.length == 1) // ...unless they mention a user
-                       {
-                           member = msg.channel.guild.members.get(msg.mentions[0]);
-                       }
-                       var n = ''
-                       if(member.nick!=null){ n = "\n"+"     Nickname: "+member.nick } // Cool look
-                       var ro = []
-                       ro = member.roles.map(r => msg.channel.guild.roles.find(m => m.id == r).name)
-                       bot.createMessage(msg.channel.id,
-                           "__**"+member.user.username.toUpperCase() + "'S OFFICIAL ID CARD - ACCESS CODE: #"+member.user.discriminator+"**__" + "\n"
-                           + "```ruby\n"
-                           +"\n"+"           ID: "+member.user.id
-                           +"\n"+"         Name: "+member.user.username
-                           +n
-                           +"\n"+"Discriminator: "+member.user.discriminator
-                           +"\n"+"       Status: "+member.status
-                           +"\n"+" Current Game: "+msgGame
-                           +"\n"+"        Roles: "+ro
-                           +"\n"+"       Joined: "+msg.channel.guild.name+" on "+msgDate
-                           +"\n"+"       Avatar: "+"\n"+"https://cdn.discordapp.com/avatars/"+member.user.id+"/"+member.user.avatar+".jpg "
-                           + "```"
-                       );
-                   }
-               }
-           }
-        else if (cmd === "test")
-        {
-            try {
-                bot.createMessage(msg.channel.id, "I hear you <@"+msg.author.id+"> :ok_hand:");
-            } catch (err) {
-                console.log('Failed too send the reply for the cheese command. See line 107 for more info');
-            }
-        }
-        else if (cmd === "hi!" || cmd === "hello!")
-        {
-            bot.createMessage(msg.channel.id, "<@"+msg.author.id+"> Welcome to the **"+msg.channel.guild.name+"** Server!");
-            bot.createMessage(msg.channel.id, "*flips table*");
-            bot.createMessage(msg.channel.id, "(╯°□°）╯︵ ┻━┻");
-        }
-        else if (cmd === "setgame")
-        {null;}
-        else if (cmd === "version")
-        {bot.createMessage(msg.channel.id, "**Bot Version: **" + botVersion);}
-        else if (cmd === "game")
-        {bot.createMessage(msg.channel.id, "My current game is set to **" + gameName + "** by the owner! Only the owner can set this.");}
-        else if (cmd === "fight")
-        {bot.createMessage(msg.channel.id, "You're such a slut <@194103257637978114> ");}
-        else if (cmd === "debug")
-        {bot.createMessage(msg.channel.id, null);}
-  }
+    };
 });
 
 bot.connect();
